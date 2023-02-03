@@ -6,10 +6,12 @@ const io = require('socket.io')(http,{
       methods: ["GET", "POST"]
     }
   });
+const cors = require('cors')
 const DOMPurify = require('isomorphic-dompurify');
 const hostname = process.env.HOSTNAME || '0.0.0.0';
 const port = process.env.PORT || 80;
 const rooms = ['textContent', 'DOMPurify'];
+app.use(cors())
 
 
 app.get('/', (req, res) => {

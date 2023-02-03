@@ -19,12 +19,6 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    let {nickname, room} = socket.handshake.query;
-    if (!rooms.includes(room)) {
-        socket.emit('error', 'the room does not exist');
-        socket.disconnect(true);
-        return;
-    }
     socket.join(room);
     io.to(room).emit('msg', {
         from: 'system',

